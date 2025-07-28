@@ -273,7 +273,8 @@ type InterfaceOptions struct {
 	// for example "stt" or "vxlan". It specifies the tunnel ID to attach to
 	// tunneled traffic leaving this interface. Optionally it could be set to
 	// "flow" which expects the flow to set tunnel ID.
-	Key string
+	Key          string
+	ExtraOptions map[string]string
 }
 
 // slice creates a string slice containing any non-zero option values from the
@@ -313,6 +314,11 @@ func (i InterfaceOptions) slice() []string {
 
 	if i.Key != "" {
 		s = append(s, fmt.Sprintf("options:key=%s", i.Key))
+	}
+	if i.ExtraOptions != nil {
+		for k, v := range i.ExtraOptions {
+			s = append(s, fmt.Sprintf("options:%s=%s", k, v))
+		}
 	}
 
 	return s

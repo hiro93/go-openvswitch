@@ -39,6 +39,7 @@ const (
 	InterfaceTypePatch    InterfaceType = "patch"
 	InterfaceTypeSTT      InterfaceType = "stt"
 	InterfaceTypeVXLAN    InterfaceType = "vxlan"
+	InterfaceTypeDPDK     InterfaceType = "dpdk"
 )
 
 // A PortAction is a port actions to change the port characteristics of the
