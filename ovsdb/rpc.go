@@ -29,6 +29,37 @@ func (c *Client) ListDatabases(ctx context.Context) ([]string, error) {
 	return dbs, nil
 }
 
+// GetSchema
+//
+//	This operation retrieves a <database-schema> that describes hosted
+//	database <db-name>.
+//
+//	The request object contains the following members:
+//	o  "method": "get_schema"
+//	o  "params": [<db-name>]
+//	o  "id": <nonnull-json-value>
+//	The response object contains the following members:
+//
+//	o  "result": <database-schema>
+//	o  "error": null
+//	o  "id": same "id" as request
+//
+//	In the event that the database named in the request does not exist,
+//	the server sends a JSON-RPC error response of the following form:
+//
+//	o  "result": null
+//	o  "error": "unknown database"
+//	o  "id": same "id" as request
+func (c *Client) GetSchema(ctx context.Context, db string) (DatabaseSchema, error) {
+	req := [1]string{db}
+	var schema DatabaseSchema
+	if err := c.rpc(ctx, "get_schema", &schema, req); err != nil {
+		return schema, err
+	}
+
+	return schema, nil
+}
+
 // Echo verifies that the OVSDB connection is alive, and can be used to keep
 // the connection alive.
 func (c *Client) Echo(ctx context.Context) error {
