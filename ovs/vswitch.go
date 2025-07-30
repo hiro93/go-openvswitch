@@ -203,6 +203,7 @@ type BridgeOptions struct {
 	// Protocols specifies the OpenFlow protocols the bridge should use.
 	Protocols    []string
 	DatapathType string
+	OtherConfig  map[string]string
 }
 
 // slice creates a string slice containing any non-zero option values from the
@@ -217,7 +218,11 @@ func (o BridgeOptions) slice() []string {
 	if o.DatapathType != "" {
 		s = append(s, fmt.Sprintf("datapath_type=%s", o.DatapathType))
 	}
-
+	if len(o.OtherConfig) > 0 {
+		for k, v := range o.OtherConfig {
+			s = append(s, fmt.Sprintf("other_config:%s=%s", k, v))
+		}
+	}
 	return s
 }
 
